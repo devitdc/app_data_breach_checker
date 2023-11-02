@@ -1,0 +1,87 @@
+.card {
+    border-radius: unset;
+}
+.form-right {
+    margin-top: -70px;
+}
+.icon-message {
+    width: 50px;
+    height: 50px;
+}
+.pwnLogo.large {
+    max-height: 100px;
+    width: 65px;
+    background-color: #e8e8e8;
+    padding: 5px;
+    border-radius: 10px;
+}
+.hide-read-more {
+    display:none;
+}
+.scan-success, .scan-alert, .scan-info {
+    font-size: 1.1rem;
+}
+.show-read-more {
+    display: block;
+}
+.result {
+    padding:  0 40px;
+}
+.title {
+    transform: translateY(250%);
+}
+@media (max-width: 991px) {
+    .form-right {
+        margin-top: -30px;
+    }
+    .icon-message {
+        width: 30px;
+        height: 30px;
+    }
+    #scanEmail, #scanPassword {
+        font-size: 20px;
+    }
+    .scan-success, .scan-alert, .scan-info {
+        font-size: .8rem;
+    }
+    .title {
+        transform: translateY(180%);
+    }
+}
+@media (max-width: 767px) {
+    .company {
+        text-align: left !important;
+        margin-left: -25px !important;
+        width: 150px;
+    }
+    .logo {
+        display: none;
+    }
+    .pwnLogo.large {
+        margin-bottom: 20px;
+    }
+    .title {
+        transform: translateY(100%);
+    }
+}
+@media (max-width: 576px) {
+    .breach-date {
+        display: none;
+    }
+}
+@media (max-width: 480px) {
+    .logo, .breach-date {
+        display: none;
+    }
+    .company {
+        text-align: left !important;
+        margin-left: -25px !important;
+        width: 150px;
+    }
+    .pwnLogo.large {
+        background-size: auto 100% !important;
+    }
+    .title {
+        transform: translateY(40%);
+    }
+}
