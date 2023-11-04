@@ -7,7 +7,7 @@ use Egulias\EmailValidator\Validation\DNSCheckValidation;
 use Egulias\EmailValidator\Validation\MultipleValidationWithAnd;
 use Egulias\EmailValidator\Validation\RFCValidation;
 
-class EmailChecker
+final class EmailChecker
 {
     /**
      * @param HttpClient $client
@@ -17,7 +17,6 @@ class EmailChecker
     )
     {
     }
-
 
     /**
      * Check if email is valid with DNS and MX record
@@ -60,8 +59,10 @@ class EmailChecker
 
         if ($curlResponse['statusCode'] === 200) {
             $curlResponse['message'] = json_decode($curlResponse['message']);
-            $curlResponse['info'] = "Votre adresse email $email est apparu dans " . count($curlResponse['message']) . " 
-            faille(s) de sécurité dont voici les détails :";
+            $countDataBreach = count($curlResponse['message']) ;
+            $curlResponse['info'] = <<<HTML
+            Votre adresse email $email est apparu dans $countDataBreach faille(s) de sécurité dont voici les détails :
+            HTML;
         } elseif ($curlResponse['statusCode'] === 429) {
             $info = json_decode($curlResponse['message']);
             $curlResponse['second'] = filter_var($info->message,FILTER_SANITIZE_NUMBER_INT);

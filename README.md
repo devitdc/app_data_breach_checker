@@ -1,3 +1,4 @@
+[![Release version](https://img.shields.io/badge/release-v1.0.0-blue)]()
 [![Symfony version](https://img.shields.io/badge/symfony-6.3-blue)]()
 [![PHP version](https://img.shields.io/badge/php-8.2-blue)]()
 # Data Breach Checker

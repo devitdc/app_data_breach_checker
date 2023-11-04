@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Form\ScanEmailType;
+use App\Form\ScanPasswordType;
 use App\Service\EmailChecker;
+use App\Service\PasswordChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ScanController extends AbstractController
 {
     public function __construct(
-        private readonly EmailChecker $checker
+        private readonly EmailChecker $emailChecker,
+        private readonly PasswordChecker $passwordChecker
     )
     {
     }
@@ -20,11 +23,10 @@ class ScanController extends AbstractController
 
     /**
      * @param Request $request
-     * @param EmailChecker $checker
      * @return Response|array
      */
     #[Route('/scan/email', name: 'app_scan_email')]
-    public function index(Request $request, EmailChecker $checker): array|Response
+    public function scanEmail(Request $request): array|Response
     {
         $response = [];
 
@@ -37,11 +39,11 @@ class ScanController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $userEmail = $form->get('email')->getData();
-            $isValidEmail = $checker->isValidEmail($userEmail);
+            $isValidEmail = $this->emailChecker->isValidEmail($userEmail);
 
-            if (is_bool($isValidEmail)) {
+            if ($isValidEmail === true) {
                 $apiKey = $this->getParameter("app.hibp_api");
-                $response = $this->checker->isEmailPwned($userEmail,$apiKey);
+                $response = $this->emailChecker->isEmailPwned($userEmail,$apiKey);
             } else {
                 $response = [
                     'statusCode' => 999,
@@ -50,7 +52,52 @@ class ScanController extends AbstractController
             }
         }
 
-        return $this->render('scan/index.html.twig',[
+        //dd($response);
+        return $this->render('scan/email.html.twig',[
+            'form' => $form,
+            'response' => $response
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response|array
+     */
+    #[Route('/scan/password', name: 'app_scan_password')]
+    public function scanPassword(Request $request): array|Response
+    {
+        $response = [];
+
+        $form = $this->createForm(ScanPasswordType::class,[
+            'action' => $this->generateUrl('app_scan_password'),
+            'method' => 'POST',
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $userPassword = $form->get('password')->getData();
+            $isValidPassword = $this->passwordChecker->isValidPassword($userPassword);
+
+            if ($isValidPassword === true) {
+                $isPasswordSafe = $this->passwordChecker->isPasswordSafe($userPassword);
+
+                if($isPasswordSafe['statusCode'] === 200 || $isPasswordSafe['statusCode'] === 404){
+                    $response = $isPasswordSafe;
+                } else {
+                    $response = [
+                        "statusCode" => 0
+                    ];
+                }
+            } else {
+                $response = [
+                    'statusCode' => 999,
+                    'message' => $isValidPassword
+                ];
+            }
+        }
+
+        return $this->render('scan/password.html.twig',[
             'form' => $form,
             'response' => $response
         ]);
