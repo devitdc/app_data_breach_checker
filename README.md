@@ -41,7 +41,7 @@ symfony security:check
 
 Créer le fichier **.env** en s'appuyant du fichier **.env-template** avant d'exécuter les commandes suivantes.
 Vous devez définir certains paramètres présents dans le fichier **.env** :
-* **HIBP_API** : Correspond au nom de la boutique.
+* **HIBP_API** : Correspond à la clef API.
 
 ### Pour démarrer l'environnement de développement
 
