@@ -36,8 +36,8 @@ if (url.pathname === '/scan/email') {
 
 
 /*****************************
-Used to display the rest of the text
-*/
+ Used to display the rest of the text
+ */
 function readMore() {
     const text = document.querySelector('.info')
 
@@ -53,12 +53,15 @@ function readMore() {
 
 
 /*****************************
-Used to display modal when screen size is less than 991px
-*/
-if (window.matchMedia("(min-width: 700px)").matches) {
+ Used to display modal when screen size is less than 700px
+ */
+if (window.matchMedia("(max-width: 700px)").matches) {
+    const mobileScreen = sessionStorage.getItem("mobileScreen")
 
-} else {
-    document.getElementById('btnModalInfoScreen').click()
+    if (mobileScreen === null) {
+        sessionStorage.setItem("mobileScreen", "1")
+        document.getElementById('btnModalInfoScreen').click()
+    }
 }
 /***************************** */
 
