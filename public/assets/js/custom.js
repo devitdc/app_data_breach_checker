@@ -21,14 +21,12 @@ function openTab(evt, checkerName) {
 
 
 /******************************
-Used to open the right menu based on the URL path
-*/
-const url = new URL(window.location)
-
-if (url.pathname === '/scan/email') {
+ Used to open the right menu based on the URL path
+ */
+if (window.location.toString().includes("/scan/email")) {
     document.getElementById("scanEmail").click()
     document.getElementById("scanEmail").scrollIntoView({behavior : "smooth"})
-} else if (url.pathname === '/scan/password') {
+} else if (window.location.toString().includes("/scan/password")) {
     document.getElementById("scanPassword").click()
     document.getElementById("scanPassword").scrollIntoView({behavior : "smooth"})
 }
